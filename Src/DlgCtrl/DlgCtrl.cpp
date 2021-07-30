@@ -480,7 +480,7 @@ void PropertyList::OnInitDialog (HWND hWnd, int nIDDlgItem)
 	hDlg = hWnd;
 	dlgid = nIDDlgItem;
 	hItem = GetDlgItem (hDlg, dlgid);
-	SetWindowLongPtr (hItem, GWLP_USERDATA, (LONG)this);
+	SetWindowLongPtr (hItem, GWLP_USERDATA, (LONG_PTR)this);
 	RECT cr;
 	GetClientRect (hItem, &cr);
 	winw = cr.right;

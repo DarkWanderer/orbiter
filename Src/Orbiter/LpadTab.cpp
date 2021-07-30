@@ -76,7 +76,7 @@ BOOL LaunchpadTab::Size (int w, int h)
 HWND LaunchpadTab::CreateTab (int resid)
 {
 	HWND hT = CreateDialogParam (pLp->GetInstance(), MAKEINTRESOURCE(resid), pLp->GetWindow(), TabProcHook, (LPARAM)this);
-	SetWindowLongPtr (hT, DWLP_USER, (LONG)this);
+	SetWindowLongPtr (hT, DWLP_USER, (LONG_PTR)this);
 
 	POINT p0, p1;
 	GetClientRect (hT, &pos0);

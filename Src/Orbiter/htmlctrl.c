@@ -1761,7 +1761,7 @@ long EmbedBrowserObject(HWND hwnd)
 			// call EmbedBrowserObject() for each one, and easily associate the appropriate browser object with
 			// its matching window and its own objects containing per-window data.
 			*((IOleObject **)ptr) = browserObject;
-			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG)ptr);
+			SetWindowLongPtr(hwnd, GWLP_USERDATA, (LONG_PTR)ptr);
 
 			// Give the browser a pointer to my IOleClientSite object
 			if (!browserObject->lpVtbl->SetClientSite(browserObject, (IOleClientSite *)_iOleClientSiteEx))

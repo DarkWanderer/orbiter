@@ -25,7 +25,7 @@ CustomCtrl::CustomCtrl (HWND hCtrl)
 void CustomCtrl::SetHwnd (HWND hCtrl)
 {
 	hWnd = hCtrl;
-	SetWindowLongPtr (hWnd, 0, (LONG)this);
+	SetWindowLongPtr (hWnd, 0, (LONG_PTR)this);
 
 	hParent = (HWND)GetWindowLongPtr (hCtrl, GWLP_HWNDPARENT);
 }

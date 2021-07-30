@@ -796,7 +796,7 @@ HWND PlaybackEditor::OpenEditTab (PlaybackEvent *event, int resid, DLGPROC tabpr
 	}
 	if (resid) {
 		hEdit = CreateDialogParam (orbiter->GetInstance(), MAKEINTRESOURCE(resid), hDlg, tabproc, (LPARAM)event);
-		SetWindowLongPtr (hEdit, GWLP_USERDATA, (LONG)event);
+		SetWindowLongPtr (hEdit, GWLP_USERDATA, (LONG_PTR)event);
 	} else {
 		hEdit = NULL;
 	}
