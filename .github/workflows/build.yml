@@ -62,12 +62,12 @@ jobs:
     - name: Pack
       working-directory: ${{ github.workspace }}/out/install/Orbiter
       shell: cmd
-      run: '7z a ../orbiter.zip .'
+      run: '7z a "${{ github.workspace }}/out/Orbiter.zip" .'
 
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
         name: Orbiter-${{ matrix.architecture }}
         # A file, directory or wildcard pattern that describes what to upload
-        path: ${{ github.workspace }}/out/orbiter.zip
+        path: ${{ github.workspace }}/out/Orbiter.zip
         retention-days: 3
