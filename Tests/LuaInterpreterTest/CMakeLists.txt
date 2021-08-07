@@ -15,6 +15,7 @@ target_link_libraries(LuaInterpreterTest
 )
 
 add_dependencies(LuaInterpreterTest
+	Orbiter_server
 	Orbitersdk
 	LuaInterpreter
 )
