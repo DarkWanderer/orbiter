@@ -233,6 +233,11 @@ option(ORBITER_MAKE_DOC
 	ON
 )
 
+option(ORBITER_MAKE_TESTS
+	"Build tests"
+	ON
+)
+
 option(ORBITER_MAKE_SDK_SAMPLES
 	"Build the SDK sample projects"
 	OFF
@@ -386,6 +391,11 @@ add_subdirectory(Src)
 add_subdirectory(Utils)
 add_subdirectory(Orbitersdk)
 add_subdirectory(OVP)
+
+if (ORBITER_MAKE_TESTS)
+	enable_testing()
+	add_subdirectory(Tests)
+endif()
 
 if(ORBITER_MAKE_DOC)
 	add_subdirectory(Doc)
