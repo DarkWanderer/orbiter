@@ -53,7 +53,8 @@ jobs:
         cmake --preset ${{ matrix.architecture }}-release .
         cmake --build --preset build-${{ matrix.architecture }}-release .
 
-    - run: Modules\Server\Orbiter.exe --scenariox=Tests\vessel_api_test
+    - run: start /WAIT Modules\Server\Orbiter.exe --scenariox=Tests\vessel_api_test
+      shell: cmd
       working-directory: ${{ github.workspace }}/out/build/${{ matrix.architecture }}-release
 
     - name: Install
