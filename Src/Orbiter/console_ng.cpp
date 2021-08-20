@@ -40,15 +40,13 @@ orbiter::ConsoleNG::ConsoleNG(Orbiter* pOrbiter)
 
 	s_console = this;
 
-	if (AllocConsole() == TRUE) {
-		DWORD id;
-		SetConsoleTitle(title);
-		Sleep(40); // Ugly, but suggested by MS document to make sure title is changed
-		m_hWnd = FindWindow(NULL, title); // Ugly, but apparently nothing better is available
-		m_hThread = CreateThread(NULL, stackSize, InputProc, this, 0, &id);
-		s_hStdO = GetStdHandle(STD_OUTPUT_HANDLE);
-		SetLogOutFunc(&ConsoleOut); // clone log output to console
-	}
+	DWORD id;
+	SetConsoleTitle(title);
+	Sleep(40); // Ugly, but suggested by MS document to make sure title is changed
+	m_hWnd = FindWindow(NULL, title); // Ugly, but apparently nothing better is available
+	m_hThread = CreateThread(NULL, stackSize, InputProc, this, 0, &id);
+	s_hStdO = GetStdHandle(STD_OUTPUT_HANDLE);
+	SetLogOutFunc(&ConsoleOut); // clone log output to console
 }
 
 orbiter::ConsoleNG::~ConsoleNG()
@@ -57,7 +55,6 @@ orbiter::ConsoleNG::~ConsoleNG()
 	SetLogOutFunc(0);
 	if (m_hThread) {
 		TerminateThread(m_hThread, 0);
-		FreeConsole();
 	}
 	s_console = NULL;
 	s_hStdO = NULL;

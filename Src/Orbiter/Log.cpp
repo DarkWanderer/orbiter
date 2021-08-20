@@ -59,6 +59,8 @@ void LogOutVA(const char *format, va_list ap)
 		vsnprintf(logs, 255, format, ap);
 		(*logOut)(logs);
 	}
+	printf(format, ap);
+	printf("\n");
 }
 
 void LogOutFine (const char *msg, ...)

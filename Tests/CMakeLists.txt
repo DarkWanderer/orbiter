@@ -52,7 +52,7 @@ add_test_file(Lua.Interpreter)
 # Sanity check for scenario tests
 add_test(
 	NAME "Scenario.SanityCheck"
-	COMMAND $<TARGET_FILE:Orbiter_server> "--scenariox=${CMAKE_SOURCE_DIR}/Scenarios/Dragonfly/Dragonfly.scn" "--maxframes=60"
+	COMMAND $<TARGET_FILE:Orbiter_server> "--scenariox=${CMAKE_SOURCE_DIR}/Scenarios/Dragonfly/Dragonfly.scn" "--maxframes=60" "--noconsole"
 	WORKING_DIRECTORY ${ORBITER_BINARY_ROOT_DIR}
 )
 set_tests_properties(Scenario.SanityCheck PROPERTIES TIMEOUT 60)
@@ -63,10 +63,8 @@ foreach(Scenario ${TestScenarios})
 	get_filename_component(test_name ${Scenario} NAME_WE)
 	add_test(
 		NAME "Scenario.${test_name}"
-		COMMAND $<TARGET_FILE:Orbiter_server> "--scenariox=${Scenario}"
+		COMMAND $<TARGET_FILE:Orbiter_server> "--scenariox=${Scenario}" "--noconsole"
 		WORKING_DIRECTORY ${ORBITER_BINARY_ROOT_DIR}
 	)
 	set_tests_properties(Scenario.${test_name} PROPERTIES TIMEOUT 60)
 endforeach()
-
-
