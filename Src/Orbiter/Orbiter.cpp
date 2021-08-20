@@ -229,15 +229,15 @@ INT WINAPI WinMain (HINSTANCE hInstance, HINSTANCE, PSTR strCmdLine, INT nCmdSho
 		LOGOUT("Application creation failed");
 		MessageBox (NULL, "Application creation failed!\nTerminating.",
 			"Orbiter Error", MB_OK | MB_ICONERROR);
-		return 0;
+		return 1;
 	}
 
 	oapiRegisterCustomControls (hInstance);
 	setlocale (LC_CTYPE, "");
 
-	g_pOrbiter->Run ();
+	int retcode = g_pOrbiter->Run();
 	delete g_pOrbiter;
-	return 0;
+	return retcode;
 }
 
 void SetEnvironmentVars ()
@@ -876,8 +876,6 @@ void Orbiter::PreCloseSession()
 //-----------------------------------------------------------------------------
 void Orbiter::CloseSession ()
 {
-	DWORD i;
-
 	bSession = false;
 
 	if      (bRecord)   ToggleRecorder();
@@ -908,7 +906,7 @@ void Orbiter::CloseSession ()
 		}
 		if (snote_playback) delete snote_playback;
 		if (nsnote) {
-			for (DWORD i = 0; i < nsnote; i++) delete snote[i];
+			for (int i = 0; i < nsnote; i++) delete snote[i];
 			delete []snote;
 			nsnote = 0;
 		}
@@ -925,7 +923,7 @@ void Orbiter::CloseSession ()
 		if (gclient)
 			gclient->clbkDestroyRenderWindow (false); // destroy graphics objects
 
-		for (i = 0; i < nmodule; i++)
+		for (int i = 0; i < nmodule; i++)
 			module[i].module->clbkSimulationEnd();
 
 		hRenderWnd = NULL;
@@ -939,7 +937,7 @@ void Orbiter::CloseSession ()
 			gclient->clbkDestroyRenderWindow (true);
 		}
 
-		for (i = 0; i < nmodule; i++)
+		for (int i = 0; i < nmodule; i++)
 			module[i].module->clbkSimulationEnd();
 
 		hRenderWnd = NULL;
@@ -952,11 +950,9 @@ void Orbiter::CloseSession ()
 			LOGOUT("**** Respawning Orbiter process\r\n");
 #ifdef INLINEGRAPHICS
 			char *name = "orbiter.exe";
+			CloseHandle(hMutex);        // delete mutex so that we don't block the child
 #else
 			char *name = "modules\\server\\orbiter.exe";
-#endif
-#ifdef INLINEGRAPHICS
-			CloseHandle (hMutex);        // delete mutex so that we don't block the child
 #endif
 			_execl (name, name, "-l", NULL);   // respawn the process
 		}
@@ -1018,7 +1014,7 @@ void Orbiter::ScreenToClient (POINT *pt) const
 //-----------------------------------------------------------------------------
 INT Orbiter::Run ()
 {
-    // Recieve and process Windows messages
+    // Receive and process Windows messages
     BOOL  bGotMsg, bCanRender, bpCanRender = TRUE;
     MSG   msg;
     PeekMessage (&msg, NULL, 0U, 0U, PM_NOREMOVE);
