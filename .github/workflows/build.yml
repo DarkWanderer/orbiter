@@ -57,6 +57,7 @@ jobs:
 
     - name: PreTest
       run: Modules\Server\Orbiter.exe --scenariox=Dragonfly\Dragonfly --maxframes=60
+      shell: cmd
       continue-on-error: true
       working-directory: ${{ github.workspace }}/out/build
 
