@@ -457,12 +457,14 @@ endif()
 
 if (ORBITER_ENABLE_ASAN)
     message("Address Sanitizer Enabled")
+    set(asan_binary_dir "$ENV{VCToolsInstallDir}bin\\Host${ARCH}\\${ARCH}")
 	add_compile_options("/fsanitize=address /EHsc")
 	add_custom_command(
-		COMMENT "Copying Clang runtime to output directory"
+		COMMENT "Copying ASAN Clang runtime from ${asan_binary_dir}"
 		OUTPUT "clang_rt.asan_dynamic-x86_64.dll"
-		COMMAND ${CMAKE_COMMAND} -E copy $ENV{VCToolsInstallDir}bin\\Hostx64\\x64\\clang_rt.asan_dynamic-x86_64.dll ${ORBITER_BINARY_ROOT_DIR}
-		COMMAND ${CMAKE_COMMAND} -E copy $ENV{VCToolsInstallDir}bin\\Hostx64\\x64\\clang_rt.asan_dbg_dynamic-x86_64.dll ${ORBITER_BINARY_ROOT_DIR}
+ 		OUTPUT "clang_rt.asan_dbg_dynamic-x86_64.dll"
+		COMMAND ${CMAKE_COMMAND} -E copy ${asan_binary_dir}\\clang_rt.asan_dynamic-x86_64.dll ${ORBITER_BINARY_ROOT_DIR}
+		COMMAND ${CMAKE_COMMAND} -E copy ${asan_binary_dir}\\clang_rt.asan_dbg_dynamic-x86_64.dll ${ORBITER_BINARY_ROOT_DIR}
 	)
     add_custom_target(AsanBinaries DEPENDS "clang_rt.asan_dynamic-x86_64.dll")
     add_dependencies(Orbiter_server AsanBinaries)
