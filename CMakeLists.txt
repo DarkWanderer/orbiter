@@ -259,7 +259,7 @@ option(ORBITER_MAKE_SDK_SAMPLES
 	OFF
 )
 
-option(ORBITER_WITH_ASAN
+option(ORBITER_ENABLE_ASAN
 	"Build binaries with Address Sanitizer"
 	OFF
 )
@@ -455,11 +455,15 @@ if (ORBITER_MAKE_TESTS)
       add_subdirectory(Tests)
 endif()
 
-if (ORBITER_ENABLE_ASAN AND ARCH EQUAL "x64")
-	add_compile_options("/fsanitize=address")
+if (ORBITER_ENABLE_ASAN)
+    message("Address Sanitizer Enabled")
+	add_compile_options("/fsanitize=address /EHsc")
 	add_custom_command(
 		COMMENT "Copying Clang runtime to output directory"
-		OUTPUT "${ORBITER_BINARY_ROOT_DIR}/clang_rt.asan_dynamic-x86_64.dll"
-		COMMAND ${CMAKE_COMMAND} -E "copy C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\clang_rt*" ${ORBITER_BINARY_ROOT_DIR}
+		OUTPUT "clang_rt.asan_dynamic-x86_64.dll"
+		COMMAND ${CMAKE_COMMAND} -E copy $ENV{VCToolsInstallDir}bin\\Hostx64\\x64\\clang_rt.asan_dynamic-x86_64.dll ${ORBITER_BINARY_ROOT_DIR}
+		COMMAND ${CMAKE_COMMAND} -E copy $ENV{VCToolsInstallDir}bin\\Hostx64\\x64\\clang_rt.asan_dbg_dynamic-x86_64.dll ${ORBITER_BINARY_ROOT_DIR}
 	)
+    add_custom_target(AsanBinaries DEPENDS "clang_rt.asan_dynamic-x86_64.dll")
+    add_dependencies(Orbiter_server AsanBinaries)
 endif()
