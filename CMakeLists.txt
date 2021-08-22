@@ -259,6 +259,11 @@ option(ORBITER_MAKE_SDK_SAMPLES
 	OFF
 )
 
+option(ORBITER_WITH_ASAN
+	"Build binaries with Address Sanitizer"
+	OFF
+)
+
 if(ORBITER_BUILD_XRSOUND)
 	set(IRRKLANG_DIR
 		irrKlang_NOTFOUND
@@ -448,4 +453,13 @@ cpack_add_component(RuntimeLibraries
 if (ORBITER_MAKE_TESTS)
       enable_testing()
       add_subdirectory(Tests)
+endif()
+
+if (ORBITER_ENABLE_ASAN AND ARCH EQUAL "x64")
+	add_compile_options("/fsanitize=address")
+	add_custom_command(
+		COMMENT "Copying Clang runtime to output directory"
+		OUTPUT "${ORBITER_BINARY_ROOT_DIR}/clang_rt.asan_dynamic-x86_64.dll"
+		COMMAND ${CMAKE_COMMAND} -E "copy C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.29.30133\bin\Hostx64\x64\clang_rt*" ${ORBITER_BINARY_ROOT_DIR}
+	)
 endif()

@@ -48,11 +48,16 @@ jobs:
         mkdir out\install
       
     - name: Configure
-      run: 'cmake -A ${{ matrix.architecture }} -G "Visual Studio 16 2019" -S ../.. -DORBITER_MAKE_DOC=OFF -DHTML_HELP_LIBRARY="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x86\Htmlhelp.Lib"'
+      run: 'cmake -A ${{ matrix.architecture }} -G "Visual Studio 16 2019" -S ../.. -DORBITER_ENABLE_ASAN=ON -DORBITER_MAKE_DOC=OFF -DHTML_HELP_LIBRARY="C:\Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\x86\Htmlhelp.Lib"'
       working-directory: ${{ github.workspace }}/out/build
 
     - name: Build
       run: 'cmake --build . --config RelWithDebInfo -- "-maxCpuCount:2" /p:CL_MPcount=2'
+      working-directory: ${{ github.workspace }}/out/build
+
+    - name: PreTest
+      run: Modules\Server\Orbiter.exe --scenariox=Dragonfly\Dragonfly --maxframes=60
+      continue-on-error: true
       working-directory: ${{ github.workspace }}/out/build
 
     - name: Test
