@@ -2,7 +2,7 @@
 # Licensed under the MIT License
 
 # SAFESEH linker flag must be turned off because the DX7 libraries don't support it'
-set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -SAFESEH:NO")
+# set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -SAFESEH:NO")
 
 # Sources for all Orbiter executable targets
 set(common_src
@@ -29,6 +29,7 @@ set(common_src
 	State.cpp
 	Vecmat.cpp
 	VectorMap.cpp
+	StackWalker.cpp
 # Launchpad
 	Launchpad.cpp
 	LpadTab.cpp
