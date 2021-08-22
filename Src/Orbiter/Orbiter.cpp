@@ -1027,10 +1027,7 @@ INT Orbiter::Run()
 	// list in the launchpad dialog
 
 	while (WM_QUIT != msg.message) {
-
-#ifdef DO_NETWORK_OLD
 		bGotMsg = PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE);
-#else
 		// Use PeekMessage() if the app is active, so we can use idle time to
 		// render the scene. Else, use GetMessage() to avoid eating CPU time.
 		if (bSession) {
