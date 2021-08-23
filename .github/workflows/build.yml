@@ -50,9 +50,10 @@ jobs:
       
     - name: Build & Test
       shell: cmd
+      continue-on-error: true
       run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvarsall.bat" ${architecture}
-        cmake --preset {architecture}-release -DORBITER_ENABLE_ASAN=ON -DORBITER_MAKE_DOC=OFF
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${architecture}
+        cmake --preset {architecture}-release -DORBITER_MAKE_DOC=OFF
         cmake --preset build-{architecture}-release
         ctest --preset test-{architecture}-release
 
