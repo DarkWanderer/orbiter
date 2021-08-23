@@ -54,7 +54,7 @@ jobs:
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${{ matrix.architecture }}
         cmake --preset ${{ matrix.architecture }}-release -DORBITER_MAKE_DOC=OFF
-        cmake --preset build-${{ matrix.architecture }}-release
+        cmake --build --preset build-${{ matrix.architecture }}-release
         ctest --preset test-${{ matrix.architecture }}-release
 
     - name: Install
