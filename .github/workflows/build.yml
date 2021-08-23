@@ -58,12 +58,12 @@ jobs:
         ctest --preset test-${{ matrix.architecture }}-release
 
     - name: Install
-      run: cmake --install
+      run: cmake --install . --prefix  ${{ github.workspace }}/out/install
       working-directory: ${{ github.workspace }}/out/build/${{ matrix.architecture }}-release
 
     - name: Pack
       if: ${{ github.ref == 'refs/heads/main' && matrix.architecture == 'x64' }}
-      working-directory: ${{ github.workspace }}/out/install/${{ matrix.architecture }}-release/Orbiter
+      working-directory: ${{ github.workspace }}/out/install/Orbiter
       shell: cmd
       run: '7z a "${{ github.workspace }}/out/Orbiter.zip" .'
 
