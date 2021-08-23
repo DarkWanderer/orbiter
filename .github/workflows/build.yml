@@ -57,7 +57,7 @@ jobs:
       working-directory: ${{ github.workspace }}/out/build
 
     - name: PreTest
-      run: ${{ github.workspace }}/out/build/Modules/Server/Orbiter.exe --scenariox=Delta-glider\\Smack! --maxframes=60
+      run: ${{ github.workspace }}/out/build/Modules/Server/RelWithDebInfo/Orbiter.exe --scenariox=Delta-glider\\Smack! --maxframes=60
       shell: cmd
       continue-on-error: true
       working-directory: ${{ github.workspace }}/out/build
