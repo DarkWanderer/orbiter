@@ -52,18 +52,18 @@ jobs:
       shell: cmd
       continue-on-error: true
       run: |
-        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${architecture}
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" ${{ architecture }}
         cmake --preset {architecture}-release -DORBITER_MAKE_DOC=OFF
         cmake --preset build-{architecture}-release
         ctest --preset test-{architecture}-release
 
     - name: Install
       run: cmake --install
-      working-directory: ${{ github.workspace }}/out/build/${architecture}-release
+      working-directory: ${{ github.workspace }}/out/build/${{ architecture }}-release
 
     - name: Pack
       if: ${{ github.ref == 'refs/heads/main' && matrix.architecture == 'x64' }}
-      working-directory: ${{ github.workspace }}/out/install/${architecture}-release/Orbiter
+      working-directory: ${{ github.workspace }}/out/install/${{ architecture }}-release/Orbiter
       shell: cmd
       run: '7z a "${{ github.workspace }}/out/Orbiter.zip" .'
 
