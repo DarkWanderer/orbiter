@@ -19,6 +19,7 @@
 #include "TabJoystick.h"
 #include "TabExtra.h"
 #include "TabAbout.h"
+#include "TabNetwork.h"
 #include "Config.h"
 #include "Log.h"
 #include "Util.h"
@@ -99,6 +100,7 @@ bool orbiter::LaunchpadDialog::Create (bool startvideotab)
 		AddTab (new JoystickTab (this)); TRACENEW
 		AddTab (pExtra = new ExtraTab (this)); TRACENEW
 		AddTab (new AboutTab (this)); TRACENEW
+		AddTab (new NetworkTab(this)); TRACENEW
 		if (ntab) {
 			pagidx  = new int[ntab]; TRACENEW
 			tabidx  = new int[ntab]; TRACENEW

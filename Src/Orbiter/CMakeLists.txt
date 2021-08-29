@@ -36,6 +36,7 @@ set(common_src
 	TabExtra.cpp
 	TabJoystick.cpp
 	TabModule.cpp
+	TabNetwork.cpp
 	TabParam.cpp
 	TabScenario.cpp
 	TabVideo.cpp

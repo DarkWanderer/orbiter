@@ -2,29 +2,29 @@
 // Licensed under the MIT License
 
 //=============================================================================
-// AboutTab class
+// NetworkTab class
 //=============================================================================
 
 #include <windows.h>
 #include <commctrl.h>
 #include <io.h>
 #include "Orbiter.h"
-#include "TabAbout.h"
+#include "TabNetwork.h"
 #include "Util.h"
 #include "Help.h"
 #include "resource.h"
 #include "cryptstring.h"
 
 //-----------------------------------------------------------------------------
-// AboutTab class
+// NetworkTab class
 
-orbiter::AboutTab::AboutTab (const LaunchpadDialog *lp): LaunchpadTab (lp)
+orbiter::NetworkTab::NetworkTab (const LaunchpadDialog *lp): LaunchpadTab (lp)
 {
 }
 
 //-----------------------------------------------------------------------------
 
-bool orbiter::AboutTab::OpenHelp ()
+bool orbiter::NetworkTab::OpenHelp ()
 {
 	OpenTabHelp ("tab_about");
 	return true;
@@ -32,7 +32,7 @@ bool orbiter::AboutTab::OpenHelp ()
 
 //-----------------------------------------------------------------------------
 
-void orbiter::AboutTab::Create ()
+void orbiter::NetworkTab::Create ()
 {
 	hTab = CreateTab (IDD_PAGE_ABT);
 
@@ -62,7 +62,7 @@ void orbiter::AboutTab::Create ()
 
 //-----------------------------------------------------------------------------
 
-INT_PTR orbiter::AboutTab::TabProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR orbiter::NetworkTab::TabProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_COMMAND:
@@ -87,7 +87,7 @@ INT_PTR orbiter::AboutTab::TabProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM 
 // Name: AboutProc()
 // Desc: Minimal message proc function for the about box
 //-----------------------------------------------------------------------------
-INT_PTR CALLBACK orbiter::AboutTab::AboutProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK orbiter::NetworkTab::AboutProc (HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg) {
 	case WM_INITDIALOG:
@@ -102,3 +102,4 @@ INT_PTR CALLBACK orbiter::AboutTab::AboutProc (HWND hWnd, UINT uMsg, WPARAM wPar
 	}
     return FALSE;
 }
+

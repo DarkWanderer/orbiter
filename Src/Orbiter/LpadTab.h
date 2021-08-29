@@ -17,8 +17,8 @@
 #define PG_JOY  5
 #define PG_EXT  6
 #define PG_ABT  7
-#define PG_WAIT 8
-#define PG_NET  9
+#define PG_NET  8
+#define PG_WAIT 9
 #define PG_NET2 10
 #define PG_NET3 11
 
