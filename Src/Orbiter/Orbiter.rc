@@ -455,13 +455,14 @@ BEGIN
     PUSHBUTTON      "&Help",9,248,305,48,18
     PUSHBUTTON      "E&xit",IDEXIT,299,305,48,18
     PUSHBUTTON      "Scenarios ",IDC_MNU_SCN,6,43,59,14,BS_RIGHT | WS_GROUP
-    PUSHBUTTON      "Parameters ",IDC_MNU_PRM,6,58,59,14,BS_RIGHT
-    PUSHBUTTON      "Visual effects ",IDC_MNU_VIS,6,73,59,14,BS_RIGHT
-    PUSHBUTTON      "Modules ",IDC_MNU_MOD,6,88,59,14,BS_RIGHT
-    PUSHBUTTON      "Video ",IDC_MNU_VID,6,103,59,14,BS_RIGHT
-    PUSHBUTTON      "Joystick ",IDC_MNU_JOY,6,118,59,14,BS_RIGHT
-    PUSHBUTTON      "Extra ",IDC_MNU_EXT,6,133,59,14,BS_RIGHT
-    PUSHBUTTON      "About Orbiter ",IDC_MNU_ABT,6,148,59,14,BS_RIGHT
+    PUSHBUTTON      "Multiplayer ",IDC_MNU_NET,6,58,59,14,BS_RIGHT
+    PUSHBUTTON      "Parameters ",IDC_MNU_PRM,6,73,59,14,BS_RIGHT
+    PUSHBUTTON      "Visual effects ",IDC_MNU_VIS,6,88,59,14,BS_RIGHT
+    PUSHBUTTON      "Modules ",IDC_MNU_MOD,6,103,59,14,BS_RIGHT
+    PUSHBUTTON      "Video ",IDC_MNU_VID,6,118,59,14,BS_RIGHT
+    PUSHBUTTON      "Joystick ",IDC_MNU_JOY,6,133,59,14,BS_RIGHT
+    PUSHBUTTON      "Extra ",IDC_MNU_EXT,6,148,59,14,BS_RIGHT
+    PUSHBUTTON      "About Orbiter ",IDC_MNU_ABT,6,163,59,14,BS_RIGHT
     CTEXT           "\r\norbit.medphys.ucl.ac.uk\r\n(c) 2000-2016\r\nMartin Schweiger",IDC_BLACKBOX,218,0,138,37,0,WS_EX_RIGHT
     CONTROL         IDB_BANNER,IDC_LOGO,"Static",SS_BITMAP,0,0,249,37
     CONTROL         "",IDC_SHADOW,"Static",SS_OWNERDRAW,0,37,5,5
@@ -712,11 +713,11 @@ STYLE DS_SETFONT | DS_CONTROL | WS_CHILD
 FONT 8, "MS Shell Dlg", 0, 0, 0x0
 BEGIN
     GROUPBOX        "Field of view",IDC_STATIC,0,21,171,89
-    PUSHBUTTON      "30°",IDC_CAM_FOV_30,12,36,25,14
-    PUSHBUTTON      "40°",IDC_CAM_FOV_40,42,36,25,14
-    PUSHBUTTON      "50°",IDC_CAM_FOV_50,72,36,25,14
-    PUSHBUTTON      "60°",IDC_CAM_FOV_60,102,36,25,14
-    PUSHBUTTON      "70°",IDC_CAM_FOV_70,132,36,25,14
+    PUSHBUTTON      "30ï¿½",IDC_CAM_FOV_30,12,36,25,14
+    PUSHBUTTON      "40ï¿½",IDC_CAM_FOV_40,42,36,25,14
+    PUSHBUTTON      "50ï¿½",IDC_CAM_FOV_50,72,36,25,14
+    PUSHBUTTON      "60ï¿½",IDC_CAM_FOV_60,102,36,25,14
+    PUSHBUTTON      "70ï¿½",IDC_CAM_FOV_70,132,36,25,14
     CONTROL         "Slider1",IDC_CAM_FOV_SLIDER,"msctls_trackbar32",TBS_AUTOTICKS | TBS_TOP | WS_TABSTOP,8,55,152,24
     EDITTEXT        IDC_CAM_FOV_INPUT,33,86,40,14,ES_AUTOHSCROLL
     LTEXT           "degrees (vertical)",IDC_STATIC,79,88,55,8
@@ -1073,10 +1074,10 @@ BEGIN
     LTEXT           "Propagator:",IDC_STATIC,87,18,38,8
     LTEXT           "Step targets:",IDC_STATIC,205,18,41,8
     LTEXT           "time [s]",IDC_STATIC,192,27,23,8
-    LTEXT           "rotation [°]",IDC_STATIC,229,27,33,8
+    LTEXT           "rotation [ï¿½]",IDC_STATIC,229,27,33,8
     LTEXT           "Step limits:",IDC_STATIC,311,18,34,8
     LTEXT           "time [s]",IDC_STATIC,286,27,23,8
-    LTEXT           "rotation [°]",IDC_STATIC,323,27,33,8
+    LTEXT           "rotation [ï¿½]",IDC_STATIC,323,27,33,8
     CONTROL         "",IDC_PROP_ACTIVE0,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,20,37,8,14
     COMBOBOX        IDC_PROP_PROP0,41,38,132,116,CBS_DROPDOWNLIST | WS_VSCROLL | WS_TABSTOP
     EDITTEXT        IDC_PROP_TTGT0,183,38,40,14,ES_AUTOHSCROLL
@@ -1722,6 +1723,7 @@ BEGIN
     IDS_TABJOYSTICK         "Joystick"
     IDS_TABEXTRA            "Extra"
     IDS_TABABOUT            "About"
+    IDS_TABNETWORK          "Network"
 END
 
 #endif    // English (United Kingdom) resources

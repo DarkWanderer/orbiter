@@ -12,6 +12,7 @@
 #define IDS_TABJOYSTICK                 7
 #define IDS_TABEXTRA                    8
 #define IDS_TABABOUT                    9
+#define IDS_TABNETWORK                  10
 #define IDI_MAIN_ICON                   101
 #define IDI_MAIN_ICON_BAK               102
 #define IDR_MAIN_ACCEL                  113
@@ -378,6 +379,7 @@
 #define IDC_MNU_ABT                     1266
 #define IDC_SHADOW                      1267
 #define IDC_BLACKBOX                    1268
+#define IDC_MNU_NET                     1269
 #define IDC_OPT_STATIC1                 1270
 #define IDC_OPT_STATIC2                 1271
 #define IDC_OPT_STATIC3                 1272

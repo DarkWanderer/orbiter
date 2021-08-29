@@ -25,6 +25,9 @@ class Body;
 class Planet;
 class VObject;
 class CameraMode;
+#ifdef NETCONNECT
+class OrbiterConnect;
+#endif
 
 typedef enum {
 	CAMERA_TARGETRELATIVE,
@@ -397,6 +400,12 @@ private:
 
 	ExternalCameraControl *ECC;
 
+#ifdef NETCONNECT
+public:
+	bool Send (OrbiterConnect *oc);
+	bool Recv (OrbiterConnect *oc);
+	void InitState (OrbiterConnect *oc);
+#endif // NETCONNECT
 };
 
 #endif // !__CAMERA_H
