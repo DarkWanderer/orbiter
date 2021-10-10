@@ -4,6 +4,10 @@
 #include "DlgCtrl.h"
 #include "DlgCtrlLocal.h"
 #include <stdio.h>
+#include <algorithm>
+
+using std::min;
+using std::max;
 
 GDIRES g_GDI;
 //static struct {

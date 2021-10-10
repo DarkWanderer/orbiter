@@ -10,8 +10,14 @@
 #include <fstream>
 #include <stdio.h>
 
+#ifdef MSVC_VER
 #define DLLCLBK extern "C" __declspec(dllexport)
 #define OAPIFUNC __declspec(dllimport)
+#else
+#define DLLCLBK extern "C" __attribute__((visibility("default")))
+#define OAPIFUNC 
+#endif
+
 
 BOOL WINAPI DllMain (HINSTANCE hModule,
 					 DWORD ul_reason_for_call,

@@ -2808,7 +2808,7 @@ DWORD CopyDDS (FILE *ftgt, FILE *fsrc, DWORD idx, bool idx_is_ofs)
 				mipsize[j] = s;
 				mipbuf[j] = new BYTE[s];
 				s >>= 2;
-				s = max (s, 8); // Minimum texture size. This appears to be
+				s = max (s, (DWORD)8); // Minimum texture size. This appears to be
 					            // correct for DXT1, but may differ for other formats!
 			}
 		}
@@ -2816,7 +2816,7 @@ DWORD CopyDDS (FILE *ftgt, FILE *fsrc, DWORD idx, bool idx_is_ofs)
 		if (ddsd.dwFlags & DDSD_MIPMAPCOUNT) {
 			for (j = 1, s = size; j < ddsd.dwMipMapCount; j++) {
 				s >>= 2;
-				s = max (s, 8);
+				s = max (s, (DWORD)8);
 				fread (mipbuf[j], s, 1, fsrc);
 			}
 		}
@@ -2828,7 +2828,7 @@ DWORD CopyDDS (FILE *ftgt, FILE *fsrc, DWORD idx, bool idx_is_ofs)
 	if (ddsd.dwFlags & DDSD_MIPMAPCOUNT) {
 		for (j = 1, s = size; j < ddsd.dwMipMapCount; j++) {
 			s >>= 2;
-			s = max (s, 8);
+			s = max(s, (DWORD)8);
 			fwrite (mipbuf[j], s, 1, ftgt);             tsize += s;
 		}
 	}

@@ -167,7 +167,7 @@ set(Orbiter_common_libs
 	UxTheme.lib
 	${HTML_HELP_LIBRARY}
 	${ZLIB_LIB}
-	${HTMLHELP_LIB}
+#	${HTMLHELP_LIB}
 	$<TARGET_FILE:Orbitersdk>
 	$<TARGET_FILE:DlgCtrl>
 )
