@@ -10,7 +10,7 @@
 #include <fstream>
 #include <stdio.h>
 
-#ifdef MSVC_VER
+#ifdef _MSC_VER
 #define DLLCLBK extern "C" __declspec(dllexport)
 #define OAPIFUNC __declspec(dllimport)
 #else
