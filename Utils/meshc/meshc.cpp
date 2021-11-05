@@ -105,7 +105,7 @@ int main (int argc, char *argv[])
 	if (!strcmp(param.outname, "-")) strcpy(param.outname, "meshres.h");
 
 	char pwd[1024];
-	_fullpath(pwd, ".\\", 1024);
+	GetCurrentDirectory(1024, pwd);
 	cout << "Current directory is " << pwd << endl;
 
 	cout << "Reading mesh from " << param.meshname << endl;

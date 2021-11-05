@@ -1515,6 +1515,38 @@ void Vessel::SetThrusterMax0 (ThrustSpec *ts, double maxth0)
 
 // ==============================================================
 
+void Vessel::IncThrusterLevel(ThrustSpec* ts, double dlevel)
+{
+	if (!bFRplayback) {
+		ts->level_permanent += dlevel;
+		if (ts->tank && ts->tank->mass)
+			ts->level = max(0.0, min(1.0, ts->level + dlevel));
+	}
+}
+
+void Vessel::SetThrusterLevel_playback(ThrustSpec* ts, double level)
+{
+	double dlevel = level - ts->level_permanent;
+	ts->level_permanent = level;
+	if (ts->tank && ts->tank->mass)
+		ts->level = max(0.0, min(1.0, ts->level + dlevel));
+
+}
+
+void Vessel::SetThrusterOverride(ThrustSpec* ts, double level)
+{
+	if (!bFRplayback) {
+		ts->level_override = level;
+	}
+}
+
+void Vessel::IncThrusterOverride(ThrustSpec* ts, double dlevel)
+{
+	if (!bFRplayback) {
+		ts->level_override += dlevel;
+	}
+}
+
 ThrustGroupSpec *Vessel::CreateThrusterGroup (ThrustSpec **ts, DWORD nts, THGROUP_TYPE thgt)
 {
 	DWORD i;

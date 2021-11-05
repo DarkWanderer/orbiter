@@ -113,9 +113,15 @@ set(Qt5_x64_DIR
 	"Qt5-x64 installation path."
 )
 
+set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -DNOMINMAX")
 if(MSVC)
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /we4311")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:\"LIBCMTD\"")
+	set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} /we4311")
+	set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:\"LIBCMTD\"")
+else()
+	add_compile_definitions(_mkdir=mkdir)
+	add_compile_definitions(strnicmp=strncasecmp)
+	add_compile_definitions(stricmp=strcasecmp)
+	add_compile_definitions(_strnicmp=strnicmp)
 endif()
 
 # Copy data and binary assets from source to binary tree to provide a working Orbiter environment

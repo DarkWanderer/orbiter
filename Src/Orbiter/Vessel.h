@@ -426,39 +426,15 @@ public:
 	}
 	// set the permanent level for a thruster (0-1)
 
-	inline void IncThrusterLevel (ThrustSpec *ts, double dlevel)
-	{
-		if (!bFRplayback) {
-			ts->level_permanent += dlevel;
-			if (ts->tank && ts->tank->mass)
-				ts->level = max(0.0, min(1.0, ts->level+dlevel));
-		}
-	}
+	void IncThrusterLevel(ThrustSpec* ts, double dlevel);
 
-	inline void SetThrusterLevel_playback (ThrustSpec *ts, double level)
-	{
-		double dlevel = level - ts->level_permanent;
-		ts->level_permanent = level;
-		if (ts->tank && ts->tank->mass)
-			ts->level = max(0.0, min(1.0, ts->level+dlevel));
-
-	}
+	void SetThrusterLevel_playback(ThrustSpec* ts, double level);
 	// set permanent thruster level during playback
 
-	inline void SetThrusterOverride (ThrustSpec *ts, double level)
-	{
-		if (!bFRplayback) {
-			ts->level_override = level;
-		}
-	}
+	void SetThrusterOverride(ThrustSpec* ts, double level);
 	// set the single-step level for a thruster (0-1)
 
-	inline void IncThrusterOverride (ThrustSpec *ts, double dlevel)
-	{
-		if (!bFRplayback) {
-			ts->level_override += dlevel;
-		}
-	}
+	void IncThrusterOverride(ThrustSpec* ts, double dlevel);
 
 	// ========================================================================
 	// thruster group management

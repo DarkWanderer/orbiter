@@ -4,7 +4,7 @@
 // DateDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Date.h"
 #include "DateDlg.h"
 #include "Convert.h"

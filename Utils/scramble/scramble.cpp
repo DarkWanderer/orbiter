@@ -24,12 +24,12 @@ void Setup ()
 	int mon, day, year;
 
 	// prepare compile date string
-	_strdate (cbuf);
-	sscanf (cbuf, "%d/%d/%d", &mon, &day, &year);
-	sprintf (datestr, "%d %s 20%02d", day, monstr[mon-1], year);
+	//_strdate (cbuf);
+	//sscanf (cbuf, "%d/%d/%d", &mon, &day, &year);
+	//sprintf (datestr, "%d %s 20%02d", day, monstr[mon-1], year);
 
-	// prepare version string
-	sprintf (versionstr, "%02d%02d%02d", year, mon, day);
+	//// prepare version string
+	//sprintf (versionstr, "%02d%02d%02d", year, mon, day);
 }
 
 int main (int argc, char *argv[])

@@ -4,7 +4,7 @@
 // ShipeditDlg.cpp : implementation file
 //
 
-#include "stdafx.h"
+#include "StdAfx.h"
 #include "Shipedit.h"
 #include "ShipeditDlg.h"
 

@@ -44,6 +44,7 @@
 
 #include <iostream>
 #include <iomanip>
+#include <algorithm>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -2197,12 +2198,12 @@ void ErodeLights (RGB *limg, Alpha *aimg, LONG imgw, LONG imgh)
 	static RGB zero = {0,0,0};
 	LONG i, j, ii, jj, imin, imax, jmin, jmax;
 	for (i = 0; i < imgh; i++) {
-		imin = max (0, i-1);
-		imax = min (imgh-1, i+1);
+		imin = max<LONG>(0, i - 1);
+		imax = min<LONG>(imgh-1, i+1);
 		for (j = 0; j < imgw; j++) {
 			if (aimg[i*imgw+j] >= 128) { // water pixel
-				jmin = max (0, j-1);
-				jmax = min (imgw-1, j+1);
+				jmin = max<LONG>(0, j - 1);
+				jmax = min<LONG>(imgw-1, j+1);
 				for (ii = imin; ii <= imax; ii++)
 					for (jj = jmin; jj <= jmax; jj++)
 						limg[ii*imgw+jj] = zero;
@@ -2387,11 +2388,11 @@ WORD CatMaskDDS (FILE *texf, RGB *img, Alpha *aimg, LONG imgw, LONG imgh)
 	if (brgb && balpha) {
 		int imin, imax, ii, jmin, jmax, j, jj;
 		for (i = 0; i < imgh; i++) {
-			imin = max (0, i-1);
-			imax = min (imgh-1, i+1);
+			imin = max<LONG>(0, i-1);
+			imax = min<LONG>(imgh-1, i+1);
 			for (j = 0; j < imgw; j++) {
-				jmin = max (0, j-1);
-				jmax = min (imgw-1, j+1);
+				jmin = max<LONG>(0, j-1);
+				jmax = min<LONG>(imgw-1, j+1);
 				if (aimg[i*imgw+j] == 0) // water pixel
 					for (ii = imin; ii <= imax; ii++)
 						for (jj = jmin; jj <= jmax; jj++)
@@ -2808,7 +2809,7 @@ DWORD CopyDDS (FILE *ftgt, FILE *fsrc, DWORD idx, bool idx_is_ofs)
 				mipsize[j] = s;
 				mipbuf[j] = new BYTE[s];
 				s >>= 2;
-				s = max (s, 8); // Minimum texture size. This appears to be
+				s = max (s, (DWORD)8); // Minimum texture size. This appears to be
 					            // correct for DXT1, but may differ for other formats!
 			}
 		}
@@ -2816,7 +2817,7 @@ DWORD CopyDDS (FILE *ftgt, FILE *fsrc, DWORD idx, bool idx_is_ofs)
 		if (ddsd.dwFlags & DDSD_MIPMAPCOUNT) {
 			for (j = 1, s = size; j < ddsd.dwMipMapCount; j++) {
 				s >>= 2;
-				s = max (s, 8);
+				s = max (s, (DWORD)8);
 				fread (mipbuf[j], s, 1, fsrc);
 			}
 		}
@@ -2828,7 +2829,7 @@ DWORD CopyDDS (FILE *ftgt, FILE *fsrc, DWORD idx, bool idx_is_ofs)
 	if (ddsd.dwFlags & DDSD_MIPMAPCOUNT) {
 		for (j = 1, s = size; j < ddsd.dwMipMapCount; j++) {
 			s >>= 2;
-			s = max (s, 8);
+			s = max(s, (DWORD)8);
 			fwrite (mipbuf[j], s, 1, ftgt);             tsize += s;
 		}
 	}

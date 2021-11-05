@@ -3,6 +3,7 @@
 
 #include "Mesh.h"
 #include <stdio.h>
+#include <string.h>
 #include "D3dmath.h"
 
 using namespace std;

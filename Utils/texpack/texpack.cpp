@@ -4,8 +4,7 @@
 #include <iostream>
 #include <string>
 #include <windows.h>
-#include <direct.h>
-#include <Shlwapi.h>
+#include <string.h>
 #include "zlib.h"
 
 #define TREE_DEFLATE 1
@@ -121,7 +120,7 @@ void MemTree::AddLevel(int lvl)
 {
 	char lvlpath[256];
 	sprintf(lvlpath, "%s\\%02d", path, lvl);
-	if (PathFileExists(lvlpath)) {
+	if (GetFileAttributes(lvlpath) != INVALID_FILE_ATTRIBUTES) {
 		WIN32_FIND_DATA fdata, fdata2;
 		strcat(lvlpath, "\\*");
 		HANDLE h = FindFirstFile(lvlpath, &fdata);
@@ -562,7 +561,7 @@ void TreeTOC::ExtractSubtreeData (DWORD idx, int lvl, int ilat, int ilng, FILE *
 	DWORD zsize = (DWORD)((idx < header.ntoc-1 ? toc[idx+1].pos : header.totlength) - entry->pos);
 	BYTE *zbuf = new BYTE[zsize];
 
-	_fseeki64(f, (__int64)header.dataOfs + entry->pos, SEEK_SET);
+	fseek(f, (__int64)header.dataOfs + entry->pos, SEEK_SET);
 	int nread = ::fread(zbuf, 1, zsize, f);
 
 	BYTE *ebuf = new BYTE[esize];
@@ -570,11 +569,11 @@ void TreeTOC::ExtractSubtreeData (DWORD idx, int lvl, int ilat, int ilng, FILE *
 
 	char fname[256];
 	sprintf (fname, "%s\\%s", root, layer);
-	_mkdir(fname);
+	CreateDirectory(fname, NULL);
 	sprintf (fname+strlen(fname), "\\%02d", lvl);
-	_mkdir(fname);
+	CreateDirectory(fname, NULL);
 	sprintf (fname+strlen(fname), "\\%06d", ilat);
-	_mkdir(fname);
+	CreateDirectory(fname, NULL);
 	sprintf (fname+strlen(fname), "\\%06d.%s", ilng, ext);
 	std::cout << "inflating " << fname << std::endl;
 	FILE *fout = fopen(fname, "wb");
@@ -656,7 +655,7 @@ int main(int narg, char *arg[])
 
 		char outf[256];
 		sprintf(outf, "%s\\Archive", root);
-		_mkdir(outf);
+		CreateDirectory(outf, NULL);
 		sprintf(outf+strlen(outf), "\\%s.tree", layer);
 		FILE *f = fopen(outf, "wb");
 
@@ -692,7 +691,7 @@ bool exist_file(const char *root, const char *layer, const char *ext, int lvl, i
 {
 	char path[256];
 	sprintf(path, "%s\\%s\\%02d\\%06d\\%06d.%s", root, layer, lvl, ilat, ilng, ext);
-	return PathFileExists(path) == TRUE;
+	return GetFileAttributes(path) != INVALID_FILE_ATTRIBUTES;
 }
 
 DWORD deflate_node_data(BYTE *inp, DWORD ninp, BYTE *outp, DWORD noutp)
@@ -726,7 +725,7 @@ DWORD deflate_node_data(BYTE *inp, DWORD ninp, BYTE *outp, DWORD noutp)
 
 DWORD inflate_node_data(BYTE *inp, DWORD ninp, BYTE *outp, DWORD noutp)
 {
-	DWORD ndata = noutp;
+	unsigned long ndata = noutp;
 	if (uncompress(outp, &ndata, inp, ninp) != Z_OK)
 		return 0;
 #ifdef UNDEF
