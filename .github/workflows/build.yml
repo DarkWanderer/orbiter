@@ -33,6 +33,7 @@ jobs:
       
     - name: Prepare
       run: |
+        mkdir out
         mkdir out/build
         mkdir out/install
       
