@@ -47,7 +47,7 @@ jobs:
       working-directory: ${{ github.workspace }}/out/build
       run: cmake -G Ninja ../.. -DORBITER_MAKE_DOC=OFF -DIRRKLANG_DIR:STRING="irrKlang_DOWNLOAD"
 
-    - name: Build & Test
+    - name: Build
       working-directory: ${{ github.workspace }}/out/build
       run: cmake --build . --config RelWithDebInfo
 
