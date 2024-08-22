@@ -15,12 +15,6 @@
 #include "Shadow.h"
 #include "Util.h"
 
-#ifdef INLINEGRAPHICS
-#include "OGraphics.h"
-#include "Mesh.h"
-#include "Scene.h"
-#endif // INLINEGRAPHICS
-
 using namespace std;
 
 extern Orbiter *g_pOrbiter;
@@ -2187,42 +2181,6 @@ void RunwayLights::Setup ()
 
 void RunwayLights::Render (LPDIRECT3DDEVICE7 dev, bool day)
 {
-#ifdef INLINEGRAPHICS
-	static D3DMATERIAL7 mat_white = {
-		{0,0,0,1}, {0,0,0,1}, {0,0,0,0}, {1,1,1,1}, 0.0
-	};
-	static D3DMATERIAL7 mat_red = {
-		{0,0,0,1}, {0,0,0,1}, {0,0,0,0}, {1,0,0,1}, 0.0
-	};
-
-	dev->SetTexture (0, dyndata->tex);
-	dev->SetRenderState (D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
-
-	dev->SetMaterial (&mat_red);
-	dev->DrawIndexedPrimitive (
-		D3DPT_TRIANGLELIST, POSTEXVERTEXFLAG, dyndata->Vtx_red, dyndata->nVtx_red,
-		dyndata->Idx_red, dyndata->nIdx_red, 0);
-	if (papi && dyndata->PAPIwhite != 4)
-		dev->DrawIndexedPrimitive (
-			D3DPT_TRIANGLELIST, POSTEXVERTEXFLAG, dyndata->Vtx_PAPI, 32,
-			dyndata->Idx_PAPI_r, (4-dyndata->PAPIwhite)*12, 0);
-
-	dev->SetMaterial (&mat_white);
-	if (dyndata->night)
-		dev->DrawIndexedPrimitive (
-			D3DPT_TRIANGLELIST, POSTEXVERTEXFLAG, dyndata->Vtx_white_night, dyndata->nVtx_white_night,
-			dyndata->Idx_white_night, dyndata->nIdx_white_night, 0);
-	dev->DrawIndexedPrimitive (
-		D3DPT_TRIANGLELIST, POSTEXVERTEXFLAG, dyndata->Vtx_white_day, dyndata->nVtx_white_day,
-		dyndata->Idx_white_day, dyndata->nIdx_white_day, 0);
-	if (papi && dyndata->PAPIwhite)
-		dev->DrawIndexedPrimitive (
-			D3DPT_TRIANGLELIST, POSTEXVERTEXFLAG, dyndata->Vtx_PAPI, 32,
-			dyndata->Idx_PAPI_w, 12*dyndata->PAPIwhite, 0);
-
-	dev->SetRenderState (D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
-	g_pOrbiter->GetInlineGraphicsClient()->GetScene()->SetDefaultMaterial();
-#endif // INLINEGRAPHICS
 }
 
 void RunwayLights::VertexArray (DWORD count, const Vector &cpos, const Vector &pos, const Vector &ofs, double size, POSTEXVERTEX *&Vtx)
@@ -2527,15 +2485,6 @@ int BeaconArray::Read (istream &is)
 
 void BeaconArray::Render (LPDIRECT3DDEVICE7 dev, bool day)
 {
-#ifdef INLINEGRAPHICS
-	dev->SetTexture (0,tex);
-	dev->SetMaterial (lightmat);
-	dev->SetRenderState (D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
-	dev->DrawIndexedPrimitive (
-		D3DPT_TRIANGLELIST, POSTEXVERTEXFLAG, Vtx, nVtx, Idx, nIdx, 0);
-	dev->SetRenderState (D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
-	g_pOrbiter->GetInlineGraphicsClient()->GetScene()->SetDefaultMaterial();
-#endif // INLINEGRAPHICS
 }
 
 void BeaconArray::Update ()

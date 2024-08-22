@@ -8,13 +8,6 @@
 #include "Log.h"
 #include "Util.h"
 
-#ifdef INLINEGRAPHICS
-#include "OGraphics.h"
-#include "Texture.h"
-#include "Scene.h"
-extern TextureManager *g_texmanager;
-#endif // INLINEGRAPHICS
-
 using namespace std;
 
 extern Orbiter *g_pOrbiter;
@@ -115,10 +108,6 @@ void Mesh::Set (const Mesh &mesh)
 	if (nTex = mesh.nTex) {
 		Tex = new SURFHANDLE[nTex]; TRACENEW
 		memcpy (Tex, mesh.Tex, nTex*sizeof(SURFHANDLE));
-#ifdef INLINEGRAPHICS
-		for (i = 0; i < nTex; i++)
-			g_texmanager->IncRefCount ((LPDIRECTDRAWSURFACE7)Tex[i]);
-#endif
 	}
 	if (GrpSetup = mesh.GrpSetup) {
 		GrpCnt = new D3DVECTOR[nGrp]; TRACENEW
@@ -284,25 +273,7 @@ bool Mesh::AddGroupBlock (DWORD grp, const NTVERTEX *vtx, DWORD nvtx, const WORD
 
 bool Mesh::MakeGroupVertexBuffer (DWORD grp)
 {
-#ifdef INLINEGRAPHICS
-	GroupSpec &g = Grp[grp];
-	if (g.VtxBuf) return false; // buffer already exists
-	if (!g_pOrbiter->GetInlineGraphicsClient()->GetFramework()->IsTLDevice()) return false; // no T&L capability
-
-	LPDIRECT3D7 d3d = g_pOrbiter->GetInlineGraphicsClient()->GetDirect3D7();
-	LPDIRECT3DDEVICE7 dev = g_pOrbiter->GetInlineGraphicsClient()->GetDevice();
-	LPVOID data;
-	D3DVERTEXBUFFERDESC vbd = 
-		{ sizeof(D3DVERTEXBUFFERDESC), D3DVBCAPS_WRITEONLY, D3DFVF_VERTEX, g.nVtx };
-	if (d3d->CreateVertexBuffer (&vbd, &g.VtxBuf, 0) != D3D_OK) return false;
-	LOGOUT_DDERR (g.VtxBuf->Lock (DDLOCK_WAIT | DDLOCK_WRITEONLY | DDLOCK_DISCARDCONTENTS, (LPVOID*)&data, NULL));
-	memcpy (data, g.Vtx, g.nVtx*sizeof(NTVERTEX));
-	LOGOUT_DDERR (g.VtxBuf->Unlock());
-	LOGOUT_DDERR (g.VtxBuf->Optimize (dev, 0));
-	return true;
-#else
 	return false;
-#endif
 }
 
 void Mesh::AddMesh (Mesh &mesh)
@@ -773,12 +744,8 @@ bool Mesh::SetTexture (DWORD texidx, SURFHANDLE tex, bool release_old)
 {
 	if (texidx >= nTex) return false;  // index out of range
 	if (Tex[texidx] && release_old) {
-#ifdef INLINEGRAPHICS
-		g_texmanager->ReleaseTexture ((LPDIRECTDRAWSURFACE7)Tex[texidx]);
-#else
 		if (g_pOrbiter->GetGraphicsClient())
 			g_pOrbiter->GetGraphicsClient()->clbkReleaseTexture (Tex[texidx]);
-#endif // INLINEGRAPHICS
 	}
 	Tex[texidx] = tex;
 	return true;
@@ -789,12 +756,8 @@ void Mesh::ReleaseTextures ()
 	if (nTex) {
 		for (DWORD i = 0; i < nTex; i++)
 			if (Tex[i]) {
-#ifdef INLINEGRAPHICS
-				g_texmanager->ReleaseTexture ((LPDIRECTDRAWSURFACE7)Tex[i]);
-#else
 				if (g_pOrbiter->GetGraphicsClient())
 					g_pOrbiter->GetGraphicsClient()->clbkReleaseTexture (Tex[i]);
-#endif // INLINEGRAPHICS
 			}
 		delete []Tex;
 		Tex = NULL;
@@ -982,38 +945,6 @@ DWORD Mesh::Render (LPDIRECT3DDEVICE7 dev)
 
 void Mesh::RenderGroup (LPDIRECT3DDEVICE7 dev, DWORD grp, bool setstate) const
 {
-#ifdef INLINEGRAPHICS
-	if (grp >= nGrp) return;
-
-	BOOL specular = FALSE;
-	BOOL lighting = TRUE;
-
-	if (setstate) {
-		int j, mi;
-		for (j = grp; j >= 0 && (mi = Grp[j].MtrlIdx) == SPEC_INHERIT; j--);
-		LPD3DMATERIAL7 mat = (j >= 0 && mi != SPEC_DEFAULT ? Mtrl+mi : &defmat);
-		dev->SetMaterial (mat);
-		if (Grp[grp].UsrFlag & 0x4)
-			dev->SetRenderState (D3DRENDERSTATE_LIGHTING, lighting = FALSE);
-
-		if (bEnableSpecular && mat->power)
-			dev->SetRenderState (D3DRENDERSTATE_SPECULARENABLE, specular = TRUE);
-		for (j = grp; j >= 0 && Grp[j].TexIdx == SPEC_INHERIT; j--);
-		//dev->SetTexture (0, j >= 0 ? Tex[Grp[j].TexIdx] : 0);
-	}
-			
-	if (Grp[grp].nVtx && Grp[grp].nIdx) {
-		dev->DrawIndexedPrimitive (
-			D3DPT_TRIANGLELIST, D3DFVF_VERTEX,
-			Grp[grp].Vtx, Grp[grp].nVtx, Grp[grp].Idx, Grp[grp].nIdx, 0);
-	}
-
-	if (setstate) {
-		g_pOrbiter->GetInlineGraphicsClient()->GetScene()->SetDefaultMaterial();
-		if (specular) dev->SetRenderState (D3DRENDERSTATE_SPECULARENABLE, FALSE);
-		if (!lighting) dev->SetRenderState (D3DRENDERSTATE_LIGHTING, TRUE);
-	}
-#endif // INLINEGRAPHICS
 }
 
 istream &operator>> (istream &is, Mesh &mesh)
@@ -1173,12 +1104,8 @@ istream &operator>> (istream &is, Mesh &mesh)
 			mesh.Tex[i] = 0;
 			if (texname[0] != '0' || texname[1] != '\0') {
 				bool uncompress = (toupper(flagstr[0]) == 'D');
-#ifdef INLINEGRAPHICS
-				mesh.Tex[i] = g_texmanager->AcquireTexture (texname, uncompress);
-#else
 				if (g_pOrbiter->GetGraphicsClient())
 					mesh.Tex[i] = g_pOrbiter->GetGraphicsClient()->clbkLoadTexture (texname, 8 | (uncompress ? 2:0));
-#endif // INLINEGRAPHICS
 			}
 		}
 	}

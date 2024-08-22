@@ -14,12 +14,6 @@
 #include "GraphicsAPI.h"
 #include <fstream>
 
-#ifdef INLINEGRAPHICS
-#include "Texture.h"
-#include "VBase.h"
-extern TextureManager2 *g_texmanager2;
-#endif // INLINEGRAPHICS
-
 using namespace std;
 
 extern Orbiter *g_pOrbiter;
