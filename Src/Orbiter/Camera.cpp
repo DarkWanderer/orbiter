@@ -23,6 +23,7 @@
 #include "Util.h"
 #include "Log.h"
 #include "OrbiterAPI.h"
+#include "Vobject.h"
 #include <zmouse.h>
 
 #ifdef INLINEGRAPHICS
