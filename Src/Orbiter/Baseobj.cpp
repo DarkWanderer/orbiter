@@ -371,31 +371,10 @@ void MeshObject::UpdateShadow (Vector &fromsun, double azim)
 
 void MeshObject::Render (LPDIRECT3DDEVICE7 dev, bool day)
 {
-#ifndef NOGRAPHICS
-	dev->SetRenderState (D3DRENDERSTATE_ALPHABLENDENABLE, TRUE);
-	mesh->Render (dev);
-	dev->SetRenderState (D3DRENDERSTATE_ALPHABLENDENABLE, FALSE);
-#endif // !NOGRAPHICS
 }
 
 void MeshObject::RenderShadow (LPDIRECT3DDEVICE7 dev)
 {
-#ifndef NOGRAPHICS
-	DWORD i, v, ng = mesh->nGroup();
-	VERTEX_XYZ *shvtx;
-
-	for (i = 0; i < ng; i++) {
-		if (mesh->GetGroupUsrFlag (i) & 1) continue; // "no shadow" flag
-		GroupSpec *gs = mesh->GetGroup (i);
-		shvtx = GetVertexXYZ (gs->nVtx);
-		for (v = 0; v < gs->nVtx; v++) {
-			shvtx[v].x = gs->Vtx[v].x + ax*(gs->Vtx[v].y-yofs);
-			shvtx[v].z = gs->Vtx[v].z + az*(gs->Vtx[v].y-yofs);
-			shvtx[v].y = yofs;
-		}
-		dev->DrawIndexedPrimitive (D3DPT_TRIANGLELIST, D3DFVF_XYZ, shvtx, gs->nVtx, gs->Idx, gs->nIdx, 0);
-	}
-#endif // !NOGRAPHICS
 }
 
 // ==============================================================================
