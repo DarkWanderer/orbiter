@@ -1,0 +1,6 @@
+# Default reviewers for specific areas, to get attention of subject matter experts
+# Does not imply requirement to be reviewed by particular person
+
+CMakeLists.txt @DarkWanderer
+*.cmake @DarkWanderer
+/OVP/D3D9Client/ @jarmonik
